@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlamkm0bah73v"]
+
+[ext_resource type="Shader" uid="uid://d1yy5h0vmocex" path="res://components/background/discrete_ocean.gdshader" id="1_fhp43"]
+[ext_resource type="Shader" uid="uid://b3pr3b5h5bfu3" path="res://components/background/blur_optimized.gdshader" id="2_fhp43"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0tw6"]
+shader = ExtResource("1_fhp43")
+shader_parameter/bottom_color = Color(0.0357559, 0.10386, 0.149896, 1)
+shader_parameter/top_color = Color(0.164706, 0.388235, 0.615686, 1)
+shader_parameter/wave_amp = 0.14
+shader_parameter/wave_size = 1.155
+shader_parameter/wave_time_mul = 0.285
+shader_parameter/total_phases = 7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r58eh"]
+shader = ExtResource("2_fhp43")
+shader_parameter/blur_radius = 8
+shader_parameter/blur_scale = 4.0
+shader_parameter/darkness = 0.8
+shader_parameter/fade_direction = 0
+shader_parameter/fade_cutoff = 1.0
+shader_parameter/fade_intensity = 2.0
+
+[node name="Background" type="CanvasLayer"]
+layer = -128
+
+[node name="Waves" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_j0tw6")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BlurFilter" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_r58eh")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4isnucsiucux"]
+
+[ext_resource type="PackedScene" uid="uid://dlamkm0bah73v" path="res://components/background/background.tscn" id="1_fu18k"]
+[ext_resource type="Script" uid="uid://bgcbyhhabntg" path="res://stages/profile_loading/profile_loading.gd" id="1_iirhp"]
+[ext_resource type="Script" uid="uid://beungppvgtvwm" path="res://stages/profile_loading/loading_main_label.gd" id="2_iirhp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xm0ww"]
+font_size = 32
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_0hrjv"]
+color = Color(1, 1, 1, 1)
+thickness = 2
+
+[node name="ProfileLoading" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iirhp")
+next_scene = "uid://btmwvxyv6gh1h"
+
+[node name="DoneDetector" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="Background" parent="." instance=ExtResource("1_fu18k")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"PanelContainerMargin"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Loading..."
+label_settings = SubResource("LabelSettings_xm0ww")
+script = ExtResource("2_iirhp")
+
+[node name="Panel" type="Panel" parent="MarginContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxLine_0hrjv")
+
+[node name="LoaderHolder" type="VBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="timeout" from="DoneDetector" to="." method="_on_done_detector_timeout"]

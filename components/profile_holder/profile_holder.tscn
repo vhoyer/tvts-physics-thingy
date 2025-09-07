@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn22svb6c0gmg"]
+
+[ext_resource type="Script" uid="uid://cfxhbw6eiigul" path="res://components/profile_holder/profile_holder.gd" id="1_rhxgt"]
+[ext_resource type="Texture2D" uid="uid://j75en6s12yga" path="res://assets/blank-profile-picture-973460_640.png" id="2_xawjg"]
+
+[node name="AccountHolder" type="VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 4
+alignment = 1
+script = ExtResource("1_rhxgt")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_xawjg")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "ironmouse"
+horizontal_alignment = 1

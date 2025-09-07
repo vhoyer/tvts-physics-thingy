@@ -1,0 +1,149 @@
+[gd_scene load_steps=6 format=3 uid="uid://bto1k33xe0wh5"]
+
+[ext_resource type="PackedScene" uid="uid://dlamkm0bah73v" path="res://components/background/background.tscn" id="1_6lgb6"]
+[ext_resource type="Script" uid="uid://c0gv1fwec1m3m" path="res://stages/profile_new/profile_new.gd" id="1_phbt2"]
+[ext_resource type="LabelSettings" uid="uid://b8xmsprsjmh4k" path="res://assets/theme/label_error.tres" id="3_8lsvn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_clbqe"]
+font_size = 32
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8lsvn"]
+font_size = 12
+
+[node name="ProfileNew" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_phbt2")
+
+[node name="Background" parent="." instance=ExtResource("1_6lgb6")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Title" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "tvts physics thingy"
+label_settings = SubResource("LabelSettings_clbqe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 24
+
+[node name="ContainerProfileName" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/ContainerProfileName"]
+layout_mode = 2
+text = "Profile name"
+
+[node name="ProfileName" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer/ContainerProfileName"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LabelError" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/ContainerProfileName"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "A profile with that name already exist, choose another"
+label_settings = ExtResource("3_8lsvn")
+autowrap_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RemeberMe" type="CheckBox" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Remember me"
+
+[node name="Create" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"ButtonPrimary"
+text = "Create Profile"
+
+[node name="Cancel" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Cancel"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="ContainerTwitchUsername" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2/ContainerTwitchUsername"]
+layout_mode = 2
+text = "Twitch Username"
+
+[node name="TwitchUsername" type="LineEdit" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2/ContainerTwitchUsername"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2/ContainerTwitchUsername"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Account that will be requested for permissions"
+label_settings = SubResource("LabelSettings_8lsvn")
+autowrap_mode = 3
+
+[node name="ContainerTwitchBroadcaster" type="VBoxContainer" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2/ContainerTwitchBroadcaster"]
+layout_mode = 2
+text = "Twitch Broadcaster"
+
+[node name="TwitchBroadcaster" type="LineEdit" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2/ContainerTwitchBroadcaster"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer2/ContainerTwitchBroadcaster"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Whose channel to connected to; Twitch Broadcaster and Twitch Username can be the same value and in most cases should be the same"
+label_settings = SubResource("LabelSettings_8lsvn")
+autowrap_mode = 3
+
+[connection signal="text_changed" from="MarginContainer/HBoxContainer/VBoxContainer/ContainerProfileName/ProfileName" to="." method="_on_profile_name_text_changed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/Cancel" to="." method="_on_cancel_pressed"]

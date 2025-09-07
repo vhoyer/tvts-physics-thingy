@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="microphone-sharp-solid.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   width="16"
+   height="16"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="36.65625"
+     inkscape:cx="15.236147"
+     inkscape:cy="9.6982098"
+     inkscape:window-width="3440"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!--!Font Awesome Pro 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2025 Fonticons, Inc.-->
+  <path
+     d="M 11,0 H 4.9999999 V 8.0000003 C 4.9999999,9.6562504 6.34375,11 8,11 9.6562501,11 11,9.6562504 11,8.0000003 Z M 4,6.7500001 v -0.75 H 2.4999999 v 0.75 1.2500002 c 0,2.7843747 2.0687501,5.0843757 4.7500002,5.4500007 v 1.05 H 5.75 4.9999999 V 16 H 5.75 8 10.25 11 V 14.500001 H 10.25 8.7500001 v -1.05 C 11.43125,13.084376 13.5,10.784375 13.5,8.0000003 v -1.2500002 -0.75 H 12 v 0.75 1.2500002 C 12,10.209375 10.209375,12 8,12 5.790625,12 4,10.209375 4,8.0000003 Z"
+     id="path1"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:0.03125" />
+</svg>

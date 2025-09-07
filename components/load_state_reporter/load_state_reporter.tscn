@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqjip38ayguqc"]
+
+[ext_resource type="LabelSettings" uid="uid://dfpcs7ni35nk5" path="res://components/load_state_reporter/label_settings_neutral.tres" id="1_uwppl"]
+[ext_resource type="Script" uid="uid://bl0n57ovo1k6w" path="res://components/load_state_reporter/load_state_reporter.gd" id="1_whkap"]
+
+[node name="LoadStateReporter" type="VBoxContainer"]
+script = ExtResource("1_whkap")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="LabelName" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Twitch API"
+label_settings = ExtResource("1_uwppl")
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_type_variation = &"HSeparatorUnderline"
+
+[node name="LabelState" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "loading"
+label_settings = ExtResource("1_uwppl")
+
+[node name="SubMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="SubLoadersHolder" type="VBoxContainer" parent="SubMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0

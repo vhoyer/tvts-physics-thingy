@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="square-plus-sharp-solid.svg"
+   width="128"
+   height="128"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="6.4799707"
+     inkscape:cx="57.947793"
+     inkscape:cy="125.15489"
+     inkscape:window-width="2473"
+     inkscape:window-height="1360"
+     inkscape:window-x="-7"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <!--!Font Awesome Pro 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2025 Fonticons, Inc.-->
+  <path
+     d="M 128,0 H 0 V 128 H 128 Z M 57.142857,96 V 89.142857 70.857143 H 38.857143 32 V 57.142857 h 6.857143 18.285714 V 38.857143 32 h 13.714286 v 6.857143 18.285714 H 89.142857 96 V 70.857143 H 89.142857 70.857143 V 89.142857 96 Z"
+     id="path1"
+     style="stroke-width:0.285714;fill:#e4e6e7;fill-opacity:1" />
+</svg>

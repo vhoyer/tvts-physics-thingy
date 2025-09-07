@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2l7xyt2e4h7y"]
+
+[ext_resource type="Script" uid="uid://crq2s2tn6khbp" path="res://stages/profile_switch/profile_switch.gd" id="1_g2a2h"]
+[ext_resource type="PackedScene" uid="uid://dlamkm0bah73v" path="res://components/background/background.tscn" id="2_sdevu"]
+[ext_resource type="PackedScene" uid="uid://dn22svb6c0gmg" path="res://components/profile_holder/profile_holder.tscn" id="3_m57wj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sdrgq"]
+font_size = 32
+outline_color = Color(0, 0, 0, 1)
+
+[node name="ProfileSwitch" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g2a2h")
+
+[node name="Background" parent="." instance=ExtResource("2_sdevu")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Title" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "tvts physics thingy"
+label_settings = SubResource("LabelSettings_sdrgq")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 4
+vertical_scroll_mode = 0
+
+[node name="ProfileList" type="HBoxContainer" parent="MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="AddProfile" parent="MarginContainer/ScrollContainer/ProfileList" instance=ExtResource("3_m57wj")]
+layout_mode = 2
+add_profile = true
+
+[connection signal="pressed" from="MarginContainer/ScrollContainer/ProfileList/AddProfile" to="." method="_on_add_account_pressed"]
