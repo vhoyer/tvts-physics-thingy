@@ -7,6 +7,9 @@ var timer: Timer = $Timer
 @export
 var force_magnitute: float = 100
 
+@export
+var gravity_curve: Curve
+
 
 var starting_transform: Transform3D
 
@@ -24,25 +27,26 @@ func _ready() -> void:
 
 func _on_timeout() -> void:
 	self.transform = starting_transform
-	sync_back()
+	sync_back(0.3)
 	self.freeze = true
 
 
 func simulate() -> void:
+	if self.freeze:
+		starting_transform = self.transform
 	timer.start()
 	self.freeze = false
 	self.sleeping = true
 	await get_tree().process_frame
 
-	var rand_dir = Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)).normalized()
+	var rand_dir = Vector3(0, 0, randf_range(-0.5, 0.5) * PI)
 	self.apply_torque_impulse(rand_dir)
 
-	self.apply_central_force(Vector3.UP * force_magnitute)
+	self.apply_central_force(Vector3(randf_range(-0.25, 0.25), 1, randf_range(-0.10, 0.025)) * force_magnitute)
 
 
 func _on_channel_points_reward_redeemed(reward: YatcPointsRedeemedReward) -> void:
 	if reward.reward_id != Profile.config.push_redeem: return
-	starting_transform = self.transform
 	simulate()
 
 
@@ -54,13 +58,20 @@ func _process(_delta: float) -> void:
 		sync_back()
 
 
-func sync_back() -> void:
+func _integrate_forces(_state: PhysicsDirectBodyState3D) -> void:
+	self.gravity_scale = gravity_curve.sample_baked(self.linear_velocity.y)
+
+
+func sync_back(duration:= 0.0) -> void:
 	var unstransformed = (self.global_position - offset)/4
 	var unstranssized = unstransformed.z * 100
 
 	var new_transform = GodotVTSModel.new()
 	new_transform.position = Vector2(unstransformed.x, unstransformed.y)
 	new_transform.size = unstranssized
-	new_transform.rotation = self.rotation_degrees.z
-	GodotVTS.move_model(new_transform, false)
+	new_transform.rotation = -self.rotation_degrees.z
+	GodotVTS.move_model(new_transform, false, duration)
 
+
+func _on_push_pressed() -> void:
+	simulate()
