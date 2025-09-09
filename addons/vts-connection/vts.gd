@@ -1,4 +1,4 @@
-class_name GodotVTS
+class_name GodotVTubeStudio
 extends Node
 
 const GVTS = 'GodotVTS'
@@ -10,23 +10,30 @@ const VTS_URL = 'ws://127.0.0.1:%s'
 signal packet_arrived(id: String, payload: Dictionary)
 
 
-var token: String
-var socket:= WebSocketPeer.new()
+var socket: WebSocketPeer
 var logger:= Logger.scope(GVTS)
 var status:= StatusReporter.new()
 
 var ongoing_requests: Dictionary[String, Request] = {}
 
 
+var persistency:= JSONStorage.new('', 'gvts')
+var token: String:
+	get():
+		return persistency.get_item('token', '')
+	set(value):
+		persistency.set_item('token', value)
+
+
+
 func _ready() -> void:
 	status.changed.connect(_on_status_changed)
-	connect_to_port()
 
 
 func connect_to_port(port:= 8001) -> void:
 	var url = VTS_URL % port
+	socket = WebSocketPeer.new()
 	socket.connect_to_url(url)
-	set_process(true)
 	status.report(GVTS, 'connection_requested')
 
 
@@ -38,13 +45,16 @@ func send(type: String, data: Dictionary = {}) -> Request:
 
 
 func _process(_delta: float) -> void:
+	if not socket: return
+
 	socket.poll()
 	var state:= socket.get_ready_state()
 	match state:
 		WebSocketPeer.STATE_CONNECTING:
 			status.report(GVTS, 'connection_connecting')
 		WebSocketPeer.STATE_OPEN:
-			status.report(GVTS, 'connection_established')
+			if status.get_status(GVTS) == 'connection_connecting':
+				status.report(GVTS, 'connection_established')
 
 			while socket.get_available_packet_count():
 				var data = socket.get_packet()
@@ -62,7 +72,7 @@ func _process(_delta: float) -> void:
 			var code = socket.get_close_code()
 			var reason = socket.get_close_reason()
 			logger.info("WebSocket closed with code: `%d`, reason `%s`. Clean: `%s`" % [code, reason, code != -1])
-			set_process(false) # Stop processing.
+			socket = null
 
 
 func _on_status_changed(id: String, state: String) -> void:
@@ -91,7 +101,7 @@ func _on_status_changed(id: String, state: String) -> void:
 			status.report(GVTS, 'error')
 			logger.debug('error authing: %s' % auth.data.reason)
 			return
-
+		status.report(GVTS, 'ok')
 
 
 

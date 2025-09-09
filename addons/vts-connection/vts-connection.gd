@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 const autoload_singletons = [
-	['VTS', "res://addons/vts-connection/vts.gd"],
+	['GodotVTS', "res://addons/vts-connection/vts.gd"],
 ]
 
 

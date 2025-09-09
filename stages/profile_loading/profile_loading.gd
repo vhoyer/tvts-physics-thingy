@@ -18,13 +18,27 @@ func _ready() -> void:
 		push_error('Error: profile expected to be passed as payload to profile loading stage')
 
 	Profile.current = profile
-	var config = Profile.get_current_config()
 
-	loader_twitch(config)
+	loader_twitch()
+	loader_vts()
 
 
-func loader_twitch(config: JSONStorage) -> void:
-	var username = config.get_item('twitch_username', '')
+func loader_vts() -> void:
+	var inst = LOAD_STATE_REPORTER.instantiate()
+	loader_holder.add_child(inst)
+	inst.id = GodotVTS.GVTS
+	inst.label = 'VtubeStudio'
+	inst.reporter = GodotVTS.status
+
+	reporters.push_back(GodotVTS.status)
+
+	await get_tree().process_frame
+
+	GodotVTS.connect_to_port(Profile.config.vts_port)
+
+
+func loader_twitch() -> void:
+	var username = Profile.config.twitch_username
 	if not username:
 		push_error('Error: twitch expects username present, but none found')
 
@@ -38,7 +52,7 @@ func loader_twitch(config: JSONStorage) -> void:
 
 	await get_tree().process_frame
 
-	Yatc.sign_in(config.get_item('twitch_username', ''), config.get_item('twitch_broadcaster', ''))
+	Yatc.sign_in(Profile.config.twitch_username, Profile.config.twitch_broadcaster)
 
 
 func _on_done_detector_timeout() -> void:

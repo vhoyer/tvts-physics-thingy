@@ -49,14 +49,26 @@ class Config:
 	func reset() -> void:
 		memory._override_with(config)
 
+	var twitch_username: String:
+		get():
+			return memory.get_item('twitch_username', '')
+		set(value):
+			memory.set_item('twitch_username', value)
+
+	var twitch_broadcaster: String:
+		get():
+			return memory.get_item('twitch_username', '')
+		set(value):
+			memory.set_item('twitch_username', value)
+
 	var push_redeem: String:
 		get():
 			return memory.get_item('push_redeem', '')
 		set(value):
 			memory.set_item('push_redeem', value)
 
-	var port: int:
+	var vts_port: int:
 		get():
-			return memory.get_item('port', 8001)
+			return memory.get_item('vts_port', 8001)
 		set(value):
-			memory.set_item('port', value)
+			memory.set_item('vts_port', value)
