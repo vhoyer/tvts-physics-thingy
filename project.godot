@@ -23,6 +23,8 @@ Yatc="*res://addons/godot-yatc/yatc.gd"
 
 [display]
 
+window/size/viewport_width=600
+window/size/viewport_height=720
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
 
@@ -42,3 +44,8 @@ folder_colors={
 [gui]
 
 theme/custom="uid://cfdctnqb45eco"
+
+[yatc]
+
+config/client_id="a0egos3n6fded75rs45tkqm3icbx23"
+config/scope=Array[String](["channel:read:redemptions"])

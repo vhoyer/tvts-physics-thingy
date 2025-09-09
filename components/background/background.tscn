@@ -7,9 +7,9 @@
 shader = ExtResource("1_fhp43")
 shader_parameter/bottom_color = Color(0.0357559, 0.10386, 0.149896, 1)
 shader_parameter/top_color = Color(0.164706, 0.388235, 0.615686, 1)
-shader_parameter/wave_amp = 0.14
-shader_parameter/wave_size = 1.155
-shader_parameter/wave_time_mul = 0.285
+shader_parameter/wave_amp = 0.025
+shader_parameter/wave_size = 1.3
+shader_parameter/wave_time_mul = 0.251
 shader_parameter/total_phases = 7
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r58eh"]

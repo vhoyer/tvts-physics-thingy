@@ -11,6 +11,14 @@ static var current: String:
 	get():
 		return _storage.get_item('current', '')
 
+
+static var config: Config:
+	get():
+		if not config:
+			config = Config.new(get_config(current, ''))
+		return config
+
+
 static func get_current_config(prefix:= '') -> JSONStorage:
 	assert(current != '', 'Error: no profile logged-in')
 	return get_config(current, prefix)
@@ -25,3 +33,24 @@ static func list_profiles() -> PackedStringArray:
 	if dir == null:
 		return []
 	return dir.get_directories()
+
+
+class Config:
+	var config: JSONStorage
+	var memory: InMemoryStorage
+
+	func _init(_config: JSONStorage) -> void:
+		self.config = _config
+		self.memory = InMemoryStorage.new('', Profile.current)
+		self.memory._override_with(self.config)
+
+	func save() -> void:
+		config._override_with(memory)
+	func reset() -> void:
+		memory._override_with(config)
+
+	var push_redeem: String:
+		get():
+			return memory.get_item('push_redeem', '')
+		set(value):
+			memory.set_item('push_redeem', value)

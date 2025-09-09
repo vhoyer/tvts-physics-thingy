@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=35 format=3 uid="uid://cfdctnqb45eco"]
+[gd_resource type="Theme" load_steps=38 format=3 uid="uid://cfdctnqb45eco"]
 
 [ext_resource type="Texture2D" uid="uid://c6c7r26sadye5" path="res://assets/theme/gradiant_primary.svg" id="1_r3pl3"]
 [ext_resource type="Texture2D" uid="uid://dtkin8fghtrdi" path="res://assets/theme/checkbox/checkbox_checked.svg" id="2_10c53"]
@@ -247,6 +247,35 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vuo4h"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.4, 0.4, 0.4, 1)
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aogi5"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.25, 0.25, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjblb"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_detail = 5
+
 [resource]
 Button/styles/disabled = SubResource("StyleBoxFlat_ny3hw")
 Button/styles/focus = SubResource("StyleBoxFlat_5jiwi")
@@ -283,3 +312,6 @@ LineEdit/styles/normal = SubResource("StyleBoxFlat_hfrb8")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_d8n4f")
 PanelContainerMargin/base_type = &"PanelContainer"
 PanelContainerMargin/styles/panel = SubResource("StyleBoxFlat_i4f87")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_vuo4h")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_aogi5")
+PopupPanel/styles/panel = SubResource("StyleBoxFlat_wjblb")
