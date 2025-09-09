@@ -17,7 +17,6 @@ func _on_status_indicator_pressed(mouse_button: int, _mouse_position: Vector2i) 
 
 
 func set_background(is_background: bool) -> void:
-	return
 	if is_background:
 		get_tree().root.unfocusable = true
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)

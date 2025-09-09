@@ -10,10 +10,11 @@ config_version=5
 
 [application]
 
-config/name="tvts-physics-thingy"
+config/name="Yasapo"
 run/main_scene="uid://d2l7xyt2e4h7y"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.svg"
+config/custom_user_dir_name.release=".yasapo"
 
 [autoload]
 
@@ -43,12 +44,16 @@ folder_colors={
 
 [godot_vtube_studio]
 
-config/plugin_name="TVTS Physiscs Thingy"
+config/plugin_name="Yasapo"
 config/plugin_developer="veshworks"
 
 [gui]
 
 theme/custom="uid://cfdctnqb45eco"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
 
 [yatc]
 
