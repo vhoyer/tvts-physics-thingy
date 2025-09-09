@@ -20,17 +20,17 @@ config/icon="res://assets/icon.svg"
 GlobalBGM="*res://addons/godot-devkit/Audio/global_bgm.gd"
 StageManager="*res://addons/godot-devkit/StageManager/stage_manager.gd"
 Yatc="*res://addons/godot-yatc/yatc.gd"
+VTS="*res://addons/vts-connection/vts.gd"
+uuid="*res://addons/uuid/uuid.gd"
 
 [display]
 
-window/size/viewport_width=600
-window/size/viewport_height=720
 window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-devkit/plugin.cfg", "res://addons/godot-yatc/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot-devkit/plugin.cfg", "res://addons/godot-yatc/plugin.cfg", "res://addons/uuid/plugin.cfg", "res://addons/vts-connection/plugin.cfg")
 
 [file_customization]
 

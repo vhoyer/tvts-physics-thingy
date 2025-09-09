@@ -8,6 +8,7 @@ signal changed(id: String, status: String)
 var statuses: Dictionary[String, String] = {}
 
 func report(id: String, status: String) -> void:
+	if statuses.get(id) == status: return
 	statuses.set(id, status)
 	changed.emit(id, status)
 

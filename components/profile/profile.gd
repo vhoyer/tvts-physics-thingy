@@ -54,3 +54,9 @@ class Config:
 			return memory.get_item('push_redeem', '')
 		set(value):
 			memory.set_item('push_redeem', value)
+
+	var port: int:
+		get():
+			return memory.get_item('port', 8001)
+		set(value):
+			memory.set_item('port', value)
