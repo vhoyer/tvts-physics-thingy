@@ -33,3 +33,11 @@ func _on_hide_window_pressed() -> void:
 func _on_save_pressed() -> void:
 	Profile.config.save()
 	set_background(true)
+
+
+func _on_log_out_pressed() -> void:
+	var storage:= JSONStorage.new("profiles")
+	storage.set_item('remember', '')
+	Profile.logout()
+	StageManager.go_to_start()
+

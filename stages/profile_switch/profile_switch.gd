@@ -15,7 +15,9 @@ func _ready() -> void:
 
 	var remember_me = storage.get_item('remember', '')
 	if remember_me:
-		push_warning('Warn, remember me implementation still needs to be done')
+		StageManager.push_stage("uid://c4isnucsiucux", {
+			'profile': remember_me,
+		})
 
 	for profile_name: String in list:
 		var inst = PROFILE_HOLDER.instantiate()
@@ -26,6 +28,7 @@ func _ready() -> void:
 
 func build_on_profile_pressed(profile_name: String) -> Callable:
 	return func() -> void:
+		storage.set_item('remember', profile_name)
 		StageManager.push_stage("uid://c4isnucsiucux", {
 			'profile': profile_name,
 		})

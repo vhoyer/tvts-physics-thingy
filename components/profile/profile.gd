@@ -28,6 +28,11 @@ static func get_config(profile: String, prefix: String = '') -> JSONStorage:
 	return JSONStorage.new(prefix, '%s/%s/config' % [PROFILES_DIR, profile])
 
 
+static func logout() -> void:
+	current = ''
+	config = null
+
+
 static func list_profiles() -> PackedStringArray:
 	var dir:= DirAccess.open(PROFILES_DIR_PATH)
 	if dir == null:
