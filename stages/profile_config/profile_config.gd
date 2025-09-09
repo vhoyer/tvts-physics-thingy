@@ -1,7 +1,12 @@
 extends Node
 
 
+@onready
+var aspect_ratio_container: AspectRatioContainer = %AspectRatioContainer
+
+
 func _ready() -> void:
+	aspect_ratio_container.ratio = GodotVTS.window_size.aspect()
 	if Profile.config.push_redeem:
 		set_background(true)
 
@@ -12,6 +17,7 @@ func _on_status_indicator_pressed(mouse_button: int, _mouse_position: Vector2i) 
 
 
 func set_background(is_background: bool) -> void:
+	return
 	if is_background:
 		get_tree().root.unfocusable = true
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)

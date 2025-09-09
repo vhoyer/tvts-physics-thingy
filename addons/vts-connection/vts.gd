@@ -26,7 +26,7 @@ var token: String:
 
 
 var model:= GodotVTSModel.new()
-
+var window_size: Vector2
 
 
 func _ready() -> void:
@@ -75,6 +75,17 @@ func sign_in(port:= 8001) -> void:
 			model.size = payload.data.get('modelPosition', {}).get('size', 0)
 			model_moved.emit()
 			pass)
+
+	var vts_stats_event_id:= '%s.stats' % GVTS
+	status.report(vts_stats_event_id, 'waiting')
+	_send('StatisticsRequest').response.connect(
+		func _on_vts_stats(payload: Dictionary):
+			status.report(vts_stats_event_id, 'ok')
+			window_size = Vector2(
+				payload.get('data', {}).get('windowWidth', 1920),
+				payload.get('data', {}).get('windowHeight', 1080))
+			pass,
+		ConnectFlags.CONNECT_ONE_SHOT)
 
 	status.report(GVTS, 'ok')
 
