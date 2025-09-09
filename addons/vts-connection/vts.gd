@@ -118,18 +118,14 @@ func _subscribe(event: String, config: Dictionary = {}) -> Request:
 
 
 
-func move_model(position: Vector2, rotation_deg: float, size: float, duration:= 0.0, relative:=true) -> Request:
-	var deg = wrap(rotation_deg, -360, 360)
-	var pos = position.clamp(Vector2(-1, -1), Vector2(1, 1))
-	var siz = clamp(size, -100, 100)
-
+func move_model(new_transform: GodotVTSModel, relative:=true, duration:= 0.0) -> Request:
 	return _send('MoveModelRequest', {
 		'timeInSeconds': duration,
 		'valuesAreRelativeToModel': relative,
-		'positionX': pos.x,
-		'positionY': pos.y,
-		'rotation': deg,
-		'size': siz,
+		'positionX': new_transform.position.x,
+		'positionY': new_transform.position.y,
+		'rotation': new_transform.rotation,
+		'size': new_transform.size,
 		})
 
 
