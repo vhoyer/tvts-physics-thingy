@@ -20,8 +20,8 @@ config/icon="res://assets/icon.svg"
 GlobalBGM="*res://addons/godot-devkit/Audio/global_bgm.gd"
 StageManager="*res://addons/godot-devkit/StageManager/stage_manager.gd"
 Yatc="*res://addons/godot-yatc/yatc.gd"
-GodotVTS="*res://addons/vts-connection/vts.gd"
 uuid="*res://addons/uuid/uuid.gd"
+GodotVTS="*res://addons/vts-connection/vts.gd"
 
 [display]
 
@@ -40,6 +40,11 @@ folder_colors={
 "res://components/": "green",
 "res://stages/": "yellow"
 }
+
+[godot_vtube_studio]
+
+config/plugin_name="TVTS Physiscs Thingy"
+config/plugin_developer="veshworks"
 
 [gui]
 

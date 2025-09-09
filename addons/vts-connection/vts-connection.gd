@@ -17,7 +17,7 @@ func _disable_plugin() -> void:
 
 
 func _enter_tree() -> void:
-	pass
+	GodotVTubeStudioSettings.setup_settings()
 
 
 func _exit_tree() -> void:
