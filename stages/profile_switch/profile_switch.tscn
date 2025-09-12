@@ -3,10 +3,7 @@
 [ext_resource type="Script" uid="uid://crq2s2tn6khbp" path="res://stages/profile_switch/profile_switch.gd" id="1_g2a2h"]
 [ext_resource type="PackedScene" uid="uid://dlamkm0bah73v" path="res://components/background/background.tscn" id="2_sdevu"]
 [ext_resource type="PackedScene" uid="uid://dn22svb6c0gmg" path="res://components/profile_holder/profile_holder.tscn" id="3_m57wj"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_sdrgq"]
-font_size = 32
-outline_color = Color(0, 0, 0, 1)
+[ext_resource type="PackedScene" uid="uid://c1guhpnbisgp0" path="res://components/title/title.tscn" id="3_sdevu"]
 
 [node name="ProfileSwitch" type="Control"]
 layout_mode = 3
@@ -32,12 +29,8 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="Title" type="Label" parent="MarginContainer"]
+[node name="Title" parent="MarginContainer" instance=ExtResource("3_sdevu")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "Yasapo"
-label_settings = SubResource("LabelSettings_sdrgq")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 custom_minimum_size = Vector2(0, 200)

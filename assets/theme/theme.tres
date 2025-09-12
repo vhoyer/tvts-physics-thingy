@@ -287,6 +287,7 @@ ButtonClose/styles/focus = SubResource("StyleBoxEmpty_r3pl3")
 ButtonClose/styles/hover = SubResource("StyleBoxFlat_10c53")
 ButtonClose/styles/pressed = SubResource("StyleBoxFlat_r3vf3")
 ButtonPrimary/base_type = &"Button"
+ButtonPrimary/colors/font_color = Color(0.137255, 0, 0.117647, 1)
 ButtonPrimary/styles/normal = SubResource("StyleBoxTexture_5jiwi")
 ButtonTransparent/base_type = &"Button"
 ButtonTransparent/styles/normal = SubResource("StyleBoxEmpty_5jiwi")

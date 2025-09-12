@@ -3,10 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dlamkm0bah73v" path="res://components/background/background.tscn" id="1_6lgb6"]
 [ext_resource type="Script" uid="uid://c0gv1fwec1m3m" path="res://stages/profile_new/profile_new.gd" id="1_phbt2"]
 [ext_resource type="LabelSettings" uid="uid://b8xmsprsjmh4k" path="res://assets/theme/label_error.tres" id="3_8lsvn"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_clbqe"]
-font_size = 32
-outline_color = Color(0, 0, 0, 1)
+[ext_resource type="PackedScene" uid="uid://c1guhpnbisgp0" path="res://components/title/title.tscn" id="3_ydq4i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8lsvn"]
 font_size = 12
@@ -35,12 +32,8 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="Title" type="Label" parent="MarginContainer"]
+[node name="Title" parent="MarginContainer" instance=ExtResource("3_ydq4i")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "Yasapo"
-label_settings = SubResource("LabelSettings_clbqe")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2

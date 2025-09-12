@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1guhpnbisgp0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_clbqe"]
+font_size = 32
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label"]
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Yasapo by vhoyer"
+label_settings = SubResource("LabelSettings_clbqe")
