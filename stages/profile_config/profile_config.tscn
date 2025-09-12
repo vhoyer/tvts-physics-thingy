@@ -113,23 +113,32 @@ value = 8001.0
 rounded = true
 script = ExtResource("5_gni1t")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 436)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer"]
 layout_mode = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(529, 529)
 render_target_update_mode = 4
 
-[node name="PhysicsReferece" type="RigidBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="PhysicsReferece" type="RigidBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.31415, -4)
 axis_lock_angular_x = true
 axis_lock_angular_y = true
@@ -140,60 +149,66 @@ force_magnitute = 800.0
 gravity_curve = ExtResource("7_ca3nb")
 offset = Vector3(0, 4.5, -4)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece"]
 shape = SubResource("CapsuleShape3D_0ddse")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece"]
 mesh = SubResource("CapsuleMesh_mf7wq")
 
-[node name="Timer" type="Timer" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece"]
+[node name="Timer" type="Timer" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece"]
 wait_time = 5.0
 one_shot = true
 
-[node name="Camera3D" type="Camera3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 size = 4.86758
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 transform = Transform3D(-0.412894, 0.324033, 0.851188, -0.222459, -0.942145, 0.250748, 0.883193, -0.085822, 0.46109, 3.73566, 2.8203, 2.9999)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_gni1t")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="StaticBody3D" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D"]
 visible = false
 shape = SubResource("WorldBoundaryShape3D_ca3nb")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D"]
 transform = Transform3D(552.072, 0, 0, 0, 1, 0, 0, 0, 51.158, 0, 0, 0)
 material_override = SubResource("ORMMaterial3D_jpr3b")
 mesh = SubResource("PlaneMesh_gpmut")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="StaticBody3D2" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 shape = SubResource("WorldBoundaryShape3D_gni1t")
 
-[node name="StaticBody3D3" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="StaticBody3D3" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D3"]
 shape = SubResource("WorldBoundaryShape3D_jpr3b")
 
-[node name="WallRight" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="WallCeilling" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8, -4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/WallCeilling"]
+shape = SubResource("WorldBoundaryShape3D_jpr3b")
+
+[node name="WallRight" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/WallRight"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/WallRight"]
 shape = SubResource("WorldBoundaryShape3D_gpmut")
 
-[node name="WallLeft" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="WallLeft" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/WallLeft"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/WallLeft"]
 shape = SubResource("WorldBoundaryShape3D_ev2an")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
@@ -228,5 +243,5 @@ text = "Save"
 [connection signal="pressed" from="StatusIndicator" to="." method="_on_status_indicator_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer2/HBoxContainer/LogOut" to="." method="_on_log_out_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer2/HBoxContainer/HideWindow" to="." method="_on_hide_window_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer2/HBoxContainer/Push" to="MarginContainer/VBoxContainer2/HBoxContainer2/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece" method="_on_push_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/HBoxContainer/Push" to="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/PhysicsReferece" method="_on_push_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer2/HBoxContainer/Save" to="." method="_on_save_pressed"]
