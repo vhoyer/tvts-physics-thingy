@@ -94,7 +94,7 @@ func _connect_to_port(port:= 8001) -> void:
 	var url = VTS_URL % port
 	socket = WebSocketPeer.new()
 	socket.connect_to_url(url)
-	status.report(GVTS, 'connection_requested')
+	status.report(GVTS, 'websocket_requested')
 
 
 func _send(type: String, data: Dictionary = {}) -> Request:
@@ -136,10 +136,10 @@ func _process(_delta: float) -> void:
 	var state:= socket.get_ready_state()
 	match state:
 		WebSocketPeer.STATE_CONNECTING:
-			status.report(GVTS, 'connection_connecting')
+			status.report(GVTS, 'websocket_connecting')
 		WebSocketPeer.STATE_OPEN:
-			if status.get_status(GVTS) == 'connection_connecting':
-				status.report(GVTS, 'connection_established')
+			if status.get_status(GVTS) == 'websocket_connecting':
+				status.report(GVTS, 'websocket_established')
 
 			while socket.get_available_packet_count():
 				var data = socket.get_packet()
@@ -154,9 +154,9 @@ func _process(_delta: float) -> void:
 				var event = ongoing_subscriptions.get(json.messageType)
 				if event: event.event.emit(json)
 		WebSocketPeer.STATE_CLOSING:
-			status.report(GVTS, 'connection_closing')
+			status.report(GVTS, 'websocket_closing')
 		WebSocketPeer.STATE_CLOSED:
-			status.report(GVTS, 'connection_closed')
+			status.report(GVTS, 'websocket_closed')
 			var code = socket.get_close_code()
 			var reason = socket.get_close_reason()
 			logger.info("WebSocket closed with code: `%d`, reason `%s`. Clean: `%s`" % [code, reason, code != -1])
@@ -164,7 +164,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_status_changed(id: String, state: String) -> void:
-	if id == GVTS and state == 'connection_established':
+	if id == GVTS and state == 'websocket_established':
 		var api_state: Dictionary = await _send('APIStateRequest').response
 		logger.debug('handshake: %s' % api_state.data.active)
 		connected.emit()
