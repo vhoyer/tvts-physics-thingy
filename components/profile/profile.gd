@@ -71,9 +71,3 @@ class Config:
 			return memory.get_item('push_redeem', '')
 		set(value):
 			memory.set_item('push_redeem', value)
-
-	var vts_port: int:
-		get():
-			return memory.get_item('vts_port', 8001)
-		set(value):
-			memory.set_item('vts_port', value)

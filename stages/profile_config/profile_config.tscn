@@ -1,10 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://btmwvxyv6gh1h"]
+[gd_scene load_steps=20 format=3 uid="uid://btmwvxyv6gh1h"]
 
 [ext_resource type="Texture2D" uid="uid://cha78s7wtg14q" path="res://assets/icon.svg" id="1_3v1dl"]
 [ext_resource type="PackedScene" uid="uid://dlamkm0bah73v" path="res://components/background/background.tscn" id="2_0ddse"]
 [ext_resource type="Script" uid="uid://c83mqcxd5q2bn" path="res://stages/profile_config/profile_config.gd" id="2_s70pk"]
 [ext_resource type="Script" uid="uid://qwckj4dw075w" path="res://stages/profile_config/pushing_redeem_option_button.gd" id="4_0ddse"]
-[ext_resource type="Script" uid="uid://rpai0jakstai" path="res://stages/profile_config/port_input.gd" id="5_gni1t"]
 [ext_resource type="Script" uid="uid://dyrnlxxquogl4" path="res://stages/profile_config/physics_referece.gd" id="5_mf7wq"]
 [ext_resource type="Curve" uid="uid://dt76k7dohpact" path="res://assets/data/joe_gravity_curve.tres" id="7_ca3nb"]
 
@@ -100,18 +99,6 @@ popup/item_0/text = "Select a Channel Point Reward"
 popup/item_0/id = 0
 popup/item_0/disabled = true
 script = ExtResource("4_0ddse")
-
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
-layout_mode = 2
-text = "VTubeStudio port"
-
-[node name="PortInput" type="SpinBox" parent="MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer"]
-layout_mode = 2
-min_value = 1000.0
-max_value = 99999.0
-value = 8001.0
-rounded = true
-script = ExtResource("5_gni1t")
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
 layout_mode = 2

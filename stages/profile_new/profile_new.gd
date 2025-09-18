@@ -26,7 +26,6 @@ func _on_create_pressed() -> void:
 	var profile = Profile.get_config(profile_name.text)
 	profile.set_item('twitch_username', %TwitchUsername.text)
 	profile.set_item('twitch_broadcaster', %TwitchBroadcaster.text)
-	profile.set_item('vts_port', %PortInput.value)
 
 	# TODO: this should go to tts view
 	StageManager.push_stage("uid://c4isnucsiucux", {
