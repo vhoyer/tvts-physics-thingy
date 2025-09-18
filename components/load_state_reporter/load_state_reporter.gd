@@ -32,6 +32,7 @@ var reporter: StatusReporter = StatusReporter.new():
 		if reporter.changed.is_connected(_status_changed):
 			reporter.changed.disconnect(_status_changed)
 		reporter = value
+		status = reporter.get_status(id)
 		reporter.changed.connect(_status_changed)
 
 

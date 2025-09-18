@@ -34,6 +34,8 @@ func loader_vts() -> void:
 
 	await get_tree().process_frame
 
+	if GodotVTS.is_ready(): return
+
 	GodotVTS.sign_in()
 
 
@@ -51,6 +53,8 @@ func loader_twitch() -> void:
 	reporters.push_back(Yatc.status)
 
 	await get_tree().process_frame
+
+	if Yatc.is_ready(): return
 
 	Yatc.sign_in(Profile.config.twitch_username, Profile.config.twitch_broadcaster)
 

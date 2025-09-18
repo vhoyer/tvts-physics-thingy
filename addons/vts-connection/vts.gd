@@ -6,6 +6,7 @@ const VTS_URL = 'ws://127.0.0.1:%s'
 
 
 signal connected()
+signal disconnected()
 signal model_moved()
 
 
@@ -20,7 +21,7 @@ var _socket_ready_state: int:
 
 var _udp: UDPServer
 
-signal _vts_state_changed(active: bool)
+signal _vts_state_reported(active: bool)
 
 var _vts_current_instance_id: String
 var _vts_current_port: int
@@ -48,7 +49,7 @@ var window_size: Vector2
 
 func _ready() -> void:
 	_socket_state_changed.connect(_on_socket_state_changed)
-	_vts_state_changed.connect(_on_vts_state_changed)
+	_vts_state_reported.connect(_on_vts_state_reported)
 
 
 func _report(state: String, subscope: String = '') -> void:
@@ -58,20 +59,19 @@ func _report(state: String, subscope: String = '') -> void:
 	_logger.debug('status updated: %s' % state)
 
 
-
 func sign_in() -> void:
 	_report('waiting loaded vts')
 	_udp = UDPServer.new()
 	_udp.listen(47779)
 
-	var is_active: bool = await _vts_state_changed
+	var is_active: bool = await _vts_state_reported
 	if not is_active:
 		_report('enable plugin server api')
 		_logger.warn('Error connecting with vts, Plugin API needs to be enabled')
 		var counter:= 0
 		while counter < 150:
 			_logger.debug('waiting for plugin API...')
-			is_active = await _vts_state_changed
+			is_active = await _vts_state_reported
 			if is_active: break
 			counter += 1
 		if not is_active:
@@ -134,6 +134,10 @@ func sign_in() -> void:
 		ConnectFlags.CONNECT_ONE_SHOT)
 
 	_report('ok')
+
+
+func is_ready() -> bool:
+	return status.get_status(GVTS) == 'ok'
 
 
 func _connect_to_port(port:= 8001) -> void:
@@ -208,16 +212,16 @@ func _poll_udp() -> void:
 			_logger.info('received notification from an unexpected instance of vtube studio, ignoring')
 			return
 		if not is_vts_plugin_active:
-			_vts_state_changed.emit(false)
+			_vts_state_reported.emit(false)
 	else:
 		if is_vts_plugin_active:
 			_vts_current_instance_id = instance_id
 			_vts_current_port = port
 			_logger.debug('vts instance id and port updated')
-		_vts_state_changed.emit(is_vts_plugin_active)
+		_vts_state_reported.emit(is_vts_plugin_active)
 
 
-func _on_vts_state_changed(active: bool) -> void:
+func _on_vts_state_reported(active: bool) -> void:
 	if active: return
 
 	# never was connected to begin with
@@ -256,7 +260,8 @@ func _poll_socket() -> void:
 			_socket = null
 			if _vts_current_instance_id and code == 1001:
 				_logger.debug("vts closed")
-				_vts_state_changed.emit(false)
+				_vts_state_reported.emit(false)
+			disconnected.emit()
 
 
 func _on_socket_state_changed(state: int) -> void:

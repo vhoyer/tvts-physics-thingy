@@ -9,6 +9,11 @@ func _ready() -> void:
 	aspect_ratio_container.ratio = GodotVTS.window_size.aspect()
 	if Profile.config.push_redeem and !OS.is_debug_build():
 		set_background(true)
+	GodotVTS.disconnected.connect(_on_vts_disconnected)
+
+
+func _on_vts_disconnected() -> void:
+	StageManager.go_back()
 
 
 func _on_status_indicator_pressed(mouse_button: int, _mouse_position: Vector2i) -> void:
