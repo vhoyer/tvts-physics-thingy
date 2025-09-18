@@ -34,7 +34,7 @@ func loader_vts() -> void:
 
 	await get_tree().process_frame
 
-	GodotVTS.sign_in(Profile.config.vts_port)
+	GodotVTS.sign_in()
 
 
 func loader_twitch() -> void:

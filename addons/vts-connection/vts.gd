@@ -9,55 +9,101 @@ signal connected()
 signal model_moved()
 
 
-var socket: WebSocketPeer
-var logger:= Logger.scope(GVTS)
-var status:= StatusReporter.new()
+signal _socket_state_changed(state: int)
 
-var ongoing_requests: Dictionary[String, Request] = {}
-var ongoing_subscriptions: Dictionary[String, Request] = {}
-
-
-var persistency:= JSONStorage.new('', 'gvts')
-var token: String:
-	get():
-		return persistency.get_item('token', '')
+var _socket: WebSocketPeer
+var _socket_ready_state: int:
 	set(value):
-		persistency.set_item('token', value)
+		if _socket_ready_state == value: return
+		_socket_ready_state = value
+		_socket_state_changed.emit(value)
 
+var _udp: UDPServer
+
+signal _vts_state_changed(active: bool)
+
+var _vts_current_instance_id: String
+var _vts_current_port: int
+
+var _ongoing_requests: Dictionary[String, Request] = {}
+var _ongoing_subscriptions: Dictionary[String, Request] = {}
+
+
+var _persistency:= JSONStorage.new('', 'gvts')
+var _token: String:
+	get():
+		return _persistency.get_item('token', '')
+	set(value):
+		_persistency.set_item('token', value)
+
+
+var _logger:= Logger.scope(GVTS)
+
+
+var status:= StatusReporter.new()
 
 var model:= GodotVTSModel.new()
 var window_size: Vector2
 
 
 func _ready() -> void:
-	status.changed.connect(_on_status_changed)
+	_socket_state_changed.connect(_on_socket_state_changed)
+	_vts_state_changed.connect(_on_vts_state_changed)
 
 
-func sign_in(port:= 8001) -> void:
-	_connect_to_port(port)
+func _report(state: String, subscope: String = '') -> void:
+	var scope = GVTS
+	if subscope: scope = '%s.%s' % [GVTS, subscope]
+	status.report(scope, state)
+	_logger.debug('status updated: %s' % state)
+
+
+
+func sign_in() -> void:
+	_report('waiting loaded vts')
+	_udp = UDPServer.new()
+	_udp.listen(47779)
+
+	var is_active: bool = await _vts_state_changed
+	if not is_active:
+		_report('enable plugin server api')
+		_logger.warn('Error connecting with vts, Plugin API needs to be enabled')
+		var counter:= 0
+		while counter < 150:
+			_logger.debug('waiting for plugin API...')
+			is_active = await _vts_state_changed
+			if is_active: break
+			counter += 1
+		if not is_active:
+			_report('error')
+			_logger.error('timeout trying to connect to vts, restart app after enabling plugins on vts')
+			return
+		_logger.debug('plugin API activated')
+
+	_connect_to_port(_vts_current_port)
 	await connected
 
-	if not token:
-		status.report(GVTS, 'token_requested')
+	if not _token:
+		_report('token_requested')
 		var auth_token: Dictionary = await _send('AuthenticationTokenRequest', {
 			'pluginName': GodotVTubeStudioSettings.plugin_name,
 			'pluginDeveloper': GodotVTubeStudioSettings.plugin_developer,
 			}).response
-		token = auth_token.data.get('authenticationToken', '')
-		if not token:
-			status.report(GVTS, 'error')
-			logger.debug('error authing: %s' % auth_token.data.message)
+		_token = auth_token.data.get('authenticationToken', '')
+		if not _token:
+			_report('error')
+			_logger.error('error authing: %s' % auth_token.data.message)
 			return
 
-	status.report(GVTS, 'authenticating')
+	_report('authenticating')
 	var auth: Dictionary = await _send('AuthenticationRequest', {
 		'pluginName': GodotVTubeStudioSettings.plugin_name,
 		'pluginDeveloper': GodotVTubeStudioSettings.plugin_developer,
-		'authenticationToken': token,
+		'authenticationToken': _token,
 		}).response
 	if not auth.data.get('authenticated'):
-		status.report(GVTS, 'error')
-		logger.debug('error authing: %s' % auth.data.reason)
+		_report('error')
+		_logger.debug('error authing: %s' % auth.data.reason)
 		return
 
 	var moved_event_id:= '%s.ModelMovedEvent' % GVTS
@@ -87,20 +133,22 @@ func sign_in(port:= 8001) -> void:
 			pass,
 		ConnectFlags.CONNECT_ONE_SHOT)
 
-	status.report(GVTS, 'ok')
+	_report('ok')
 
 
 func _connect_to_port(port:= 8001) -> void:
 	var url = VTS_URL % port
-	socket = WebSocketPeer.new()
-	socket.connect_to_url(url)
-	status.report(GVTS, 'websocket_requested')
+	_logger.debug('connecting to "%s"' % url)
+
+	_socket = WebSocketPeer.new()
+	_socket.connect_to_url(url)
+	_report('websocket_requested')
 
 
 func _send(type: String, data: Dictionary = {}) -> Request:
 	var req:= Request.new()
-	socket.send_text(req.get_payload(type, data))
-	ongoing_requests.set(req.id, req)
+	_socket.send_text(req.get_payload(type, data))
+	_ongoing_requests.set(req.id, req)
 	return req
 
 
@@ -113,7 +161,7 @@ func _subscribe(event: String, config: Dictionary = {}) -> Request:
 	var payload: Dictionary = await req.response
 	if payload.get('data', {}).get('subscribedEvents', []).has(event):
 		req.event_name = event
-		ongoing_subscriptions.set(event, req)
+		_ongoing_subscriptions.set(event, req)
 	return req
 
 
@@ -130,45 +178,100 @@ func move_model(new_transform: GodotVTSModel, relative:=true, duration:= 0.0) ->
 
 
 func _process(_delta: float) -> void:
-	if not socket: return
+	_poll_udp()
+	_poll_socket()
 
-	socket.poll()
-	var state:= socket.get_ready_state()
+
+func _poll_udp() -> void:
+	if not _udp: return
+
+	_udp.poll()
+	if not _udp.is_connection_available(): return
+
+	var peer: PacketPeerUDP = _udp.take_connection()
+	# Process the newly connected peer
+	if peer.get_available_packet_count() <= 0: return
+
+	var data = peer.get_packet()
+	var json = JSON.parse_string(data.get_string_from_utf8())
+
+	if !(json.get('data', {}) is Dictionary):
+		_logger.info('unexpected format of vts packet, ignoring packet')
+		return
+
+	var is_vts_plugin_active: bool = json.data.get('active', false)
+	var instance_id: String = json.data.get('instanceID', '')
+	var port: int = json.data.get('port', 8001)
+
+	if _vts_current_instance_id:
+		if _vts_current_instance_id != instance_id:
+			_logger.info('received notification from an unexpected instance of vtube studio, ignoring')
+			return
+		if not is_vts_plugin_active:
+			_vts_state_changed.emit(false)
+	else:
+		if is_vts_plugin_active:
+			_vts_current_instance_id = instance_id
+			_vts_current_port = port
+			_logger.debug('vts instance id and port updated')
+		_vts_state_changed.emit(is_vts_plugin_active)
+
+
+func _on_vts_state_changed(active: bool) -> void:
+	if active: return
+
+	# never was connected to begin with
+	if not _vts_current_instance_id: return
+
+	_logger.info("vtube studio's plugin api became inactive")
+
+	_vts_current_instance_id = ''
+	_vts_current_port = 8001
+
+
+func _poll_socket() -> void:
+	if not _socket: return
+
+	_socket.poll()
+	var state:= _socket.get_ready_state()
+	_socket_ready_state = state
 	match state:
-		WebSocketPeer.STATE_CONNECTING:
-			status.report(GVTS, 'websocket_connecting')
 		WebSocketPeer.STATE_OPEN:
-			if status.get_status(GVTS) == 'websocket_connecting':
-				status.report(GVTS, 'websocket_established')
-
-			while socket.get_available_packet_count():
-				var data = socket.get_packet()
+			while _socket.get_available_packet_count():
+				var data = _socket.get_packet()
 				var json = JSON.parse_string(data.get_string_from_utf8())
-				logger.debug('received data %s' % json.messageType)
+				_logger.debug('received data %s' % json.messageType)
 
-				var req = ongoing_requests.get(json.requestID)
+				var req = _ongoing_requests.get(json.requestID)
 				if req:
 					req.response.emit(json)
-					ongoing_requests.erase(json.requestID)
+					_ongoing_requests.erase(json.requestID)
 
-				var event = ongoing_subscriptions.get(json.messageType)
+				var event = _ongoing_subscriptions.get(json.messageType)
 				if event: event.event.emit(json)
-		WebSocketPeer.STATE_CLOSING:
-			status.report(GVTS, 'websocket_closing')
 		WebSocketPeer.STATE_CLOSED:
-			status.report(GVTS, 'websocket_closed')
-			var code = socket.get_close_code()
-			var reason = socket.get_close_reason()
-			logger.info("WebSocket closed with code: `%d`, reason `%s`. Clean: `%s`" % [code, reason, code != -1])
-			socket = null
+			var code = _socket.get_close_code()
+			var reason = _socket.get_close_reason()
+			_logger.info("WebSocket closed with code: `%d`, reason `%s`. Clean: `%s`" % [code, reason, code != -1])
+			_socket = null
+			if _vts_current_instance_id and code == 1001:
+				_logger.debug("vts closed")
+				_vts_state_changed.emit(false)
 
 
-func _on_status_changed(id: String, state: String) -> void:
-	if id == GVTS and state == 'websocket_established':
-		var api_state: Dictionary = await _send('APIStateRequest').response
-		logger.debug('handshake: %s' % api_state.data.active)
-		connected.emit()
-
+func _on_socket_state_changed(state: int) -> void:
+	match state:
+		WebSocketPeer.STATE_CONNECTING:
+			_report('websocket_connecting')
+		WebSocketPeer.STATE_OPEN:
+			_report('websocket_established')
+			var api_state: Dictionary = await _send('APIStateRequest').response
+			_logger.debug('handshake: %s' % api_state.data.active)
+			connected.emit()
+		WebSocketPeer.STATE_CLOSING:
+			_report('websocket_closing')
+		WebSocketPeer.STATE_CLOSED:
+			_report('websocket_closed')
 
 
 class Request:
