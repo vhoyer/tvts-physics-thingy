@@ -83,27 +83,43 @@ func sign_in() -> void:
 	_connect_to_port(_vts_current_port)
 	await connected
 
-	if not _token:
-		_report('token_requested')
-		var auth_token: Dictionary = await _send('AuthenticationTokenRequest', {
+	const MAX_TRIES = 5
+	var tries = 0
+	while tries < MAX_TRIES:
+		tries += 1
+		_logger.debug('auth attempt number %s' % tries)
+
+		if not _token:
+			_report('token_requested')
+			var auth_token: Dictionary = await _send('AuthenticationTokenRequest', {
+				'pluginName': GodotVTubeStudioSettings.plugin_name,
+				'pluginDeveloper': GodotVTubeStudioSettings.plugin_developer,
+				}).response
+			_token = auth_token.data.get('authenticationToken', '')
+			if not _token:
+				_report('error')
+				_logger.error('error authing: %s' % auth_token.data.message)
+				continue
+
+		_report('authenticating')
+		var auth: Dictionary = await _send('AuthenticationRequest', {
 			'pluginName': GodotVTubeStudioSettings.plugin_name,
 			'pluginDeveloper': GodotVTubeStudioSettings.plugin_developer,
+			'authenticationToken': _token,
 			}).response
-		_token = auth_token.data.get('authenticationToken', '')
-		if not _token:
-			_report('error')
-			_logger.error('error authing: %s' % auth_token.data.message)
-			return
+		if not auth.data.get('authenticated'):
+			_report('failed vts auth')
+			_logger.debug('error authing: %s' % auth.data.reason)
+			_logger.debug('deleting token and attempting authing again')
+			_token = ''
+			continue
+		else:
+			_logger.debug('successful authentication with vts')
+			break
 
-	_report('authenticating')
-	var auth: Dictionary = await _send('AuthenticationRequest', {
-		'pluginName': GodotVTubeStudioSettings.plugin_name,
-		'pluginDeveloper': GodotVTubeStudioSettings.plugin_developer,
-		'authenticationToken': _token,
-		}).response
-	if not auth.data.get('authenticated'):
+	if tries == MAX_TRIES:
 		_report('error')
-		_logger.debug('error authing: %s' % auth.data.reason)
+		_logger.debug('exceeded max tries')
 		return
 
 	var moved_event_id:= '%s.ModelMovedEvent' % GVTS
