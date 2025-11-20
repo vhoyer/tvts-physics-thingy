@@ -8,7 +8,7 @@ var model_name: String
 
 var position: Vector2:
 	set(value):
-		position = value.clamp(Vector2(-1, -1), Vector2(1, 1))
+		position = value.clamp(Vector2(-2, -2), Vector2(2, 2))
 
 
 var rotation: float:

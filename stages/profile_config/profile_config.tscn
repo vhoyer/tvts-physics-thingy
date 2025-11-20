@@ -162,26 +162,25 @@ transform = Transform3D(-0.412894, 0.324033, 0.851188, -0.222459, -0.942145, 0.2
 [node name="WorldEnvironment" type="WorldEnvironment" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_gni1t")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="floor" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D"]
-visible = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/floor"]
 shape = SubResource("WorldBoundaryShape3D_ca3nb")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D"]
-transform = Transform3D(552.072, 0, 0, 0, 1, 0, 0, 0, 51.158, 0, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/floor"]
+transform = Transform3D(552.072, 0, 0, 0, 1, 0, 0, 0, 51.158, 0.0836463, -1.29578, -1.12728)
 material_override = SubResource("ORMMaterial3D_jpr3b")
 mesh = SubResource("PlaneMesh_gpmut")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="BackWall" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/BackWall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 shape = SubResource("WorldBoundaryShape3D_gni1t")
 
-[node name="StaticBody3D3" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
+[node name="FourthWall" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/StaticBody3D3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport/FourthWall"]
 shape = SubResource("WorldBoundaryShape3D_jpr3b")
 
 [node name="WallCeilling" type="StaticBody3D" parent="MarginContainer/VBoxContainer2/HBoxContainer2/Panel/AspectRatioContainer/SubViewportContainer/SubViewport"]
